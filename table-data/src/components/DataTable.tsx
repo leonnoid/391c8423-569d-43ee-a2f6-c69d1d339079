@@ -19,6 +19,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -30,6 +32,8 @@ export function DataTable<TData, TValue>({
     data,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
+    const [pageSize, setPageSize] = React.useState(10)
+    const [pageIndex, setPageIndex] = React.useState(0)
     const table = useReactTable({
         data,
         columns,
@@ -39,6 +43,10 @@ export function DataTable<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         state: {
             sorting,
+            pagination: {
+                pageSize,
+                pageIndex,
+            },
         },
     })
 
@@ -88,23 +96,43 @@ export function DataTable<TData, TValue>({
                 </TableBody>
             </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-            <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-            >
-                Previous
-            </Button>
-            <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-            >
-                Next
-            </Button>
+            <div className="flex items-center justify-between space-x-2 py-4">
+            <div className="text-sm">
+                Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()} | Showing {table.getRowModel().rows.length} of {data.length} results
+            </div>
+            <div className="flex items-center space-x-2">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>setPageIndex(pageIndex - 1)}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <ChevronLeftIcon className="h-5 w-5" />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setPageIndex(pageIndex + 1)}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <ChevronRightIcon className="h-5 w-5" />
+                </Button>
+                <FormControl variant="outlined" size="small">
+                    <InputLabel id="rows-per-page-label">Rows</InputLabel>
+                    <Select
+                        labelId="rows-per-page-label"
+                        value={pageSize}
+                        onChange={(e) => setPageSize(Number(e.target.value))}
+                        label="Rows"
+                    >
+                        {[10, 20, 30, 40, 50].map((size) => (
+                            <MenuItem key={size} value={size}>
+                                {size}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            </div>
         </div>
     </div>
     )
