@@ -18,7 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { FormControl, InputLabel, MenuItem, Select, Button } from "@mui/material"
+import { FormControl, InputLabel, MenuItem, Select, Button, TextField } from "@mui/material"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
@@ -33,8 +33,11 @@ export function DataTable<TData, TValue>({
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [pageSize, setPageSize] = React.useState(10)
     const [pageIndex, setPageIndex] = React.useState(0)
+    const [editingCell, setEditingCell] = React.useState({ rowId: null, cellId: null });
+    const [tableData, setTableData] = React.useState(data);
+    
     const table = useReactTable({
-        data,
+        data: tableData,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -48,7 +51,25 @@ export function DataTable<TData, TValue>({
             },
         },
     })
-
+    const handleCellClick = (rowId: any, cellId: any) => {
+        setEditingCell({ rowId, cellId });
+    };
+    
+    const handleInputChange = (e: { target: { value: any } }, rowId: any, cellId: any) => {
+        const newValue = e.target.value;
+        
+        setTableData((prevData) =>
+            prevData.map((row, index) => {
+                if (index === rowId) {
+                    return {
+                        ...row,
+                        [cellId]: newValue,
+                    };
+                }
+                return row;
+            })
+        );
+    };
     return (
         <div>
             <div className="rounded-md border">
@@ -72,27 +93,37 @@ export function DataTable<TData, TValue>({
                 ))}
                 </TableHeader>
                 <TableBody>
-                {table.getRowModel().rows?.length ? (
-                    table.getRowModel().rows.map((row) => (
-                    <TableRow
-                        key={row.id}
-                        data-state={row.getIsSelected() && "selected"}
-                    >
-                        {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                        ))}
-                    </TableRow>
-                    ))
-                ) : (
-                    <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
-                        No results.
-                    </TableCell>
-                    </TableRow>
-                )}
-                </TableBody>
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell
+                                            key={cell.id}
+                                            onClick={() => handleCellClick(row.id, cell.id)}
+                                        >
+                                            {editingCell.rowId === row.id && editingCell.cellId === cell.id ? (
+                                                <TextField
+                                                    defaultValue={cell.getValue()}
+                                                    onChange={(e) => handleInputChange(e, row.id, cell.id)}
+                                                />
+                                            ) : (
+                                                flexRender(cell.column.columnDef.cell, cell.getContext())
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    No results.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
             </Table>
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
