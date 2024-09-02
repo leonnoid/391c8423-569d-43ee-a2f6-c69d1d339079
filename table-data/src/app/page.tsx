@@ -7,6 +7,7 @@ import { Button } from "@nextui-org/button";
 
 
 type Data = {
+  Id: number
   FirstName : string
   LastName : string
   Position : string
@@ -102,6 +103,7 @@ export const columns: ColumnDef<Data>[] = [
 
 export const datas: Data[] = [
   {
+    Id: 1,
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
@@ -109,6 +111,7 @@ export const datas: Data[] = [
     Email: "KevinC@example.com",
   },
   {
+    Id: 2,
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
@@ -116,6 +119,7 @@ export const datas: Data[] = [
     Email: "LevinC@example.com",
   },
   {
+    Id: 3,
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
@@ -123,6 +127,7 @@ export const datas: Data[] = [
     Email: "DevinC@example.com",
   },
   {
+    Id: 4,
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",
@@ -130,6 +135,7 @@ export const datas: Data[] = [
     Email: "QevinC@example.com",
   },
   {
+    Id: 5,
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
@@ -137,6 +143,7 @@ export const datas: Data[] = [
     Email: "KevinC@example.com",
   },
   {
+    Id: 6,
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
@@ -144,6 +151,7 @@ export const datas: Data[] = [
     Email: "LevinC@example.com",
   },
   {
+    Id: 7,
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
@@ -151,6 +159,7 @@ export const datas: Data[] = [
     Email: "DevinC@example.com",
   },
   {
+    Id: 8,
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",
@@ -158,6 +167,7 @@ export const datas: Data[] = [
     Email: "QevinC@example.com",
   },
   {
+    Id: 9,
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
@@ -165,6 +175,7 @@ export const datas: Data[] = [
     Email: "KevinC@example.com",
   },
   {
+    Id: 10,
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
@@ -172,6 +183,7 @@ export const datas: Data[] = [
     Email: "LevinC@example.com",
   },
   {
+    Id: 11,
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
@@ -179,6 +191,7 @@ export const datas: Data[] = [
     Email: "DevinC@example.com",
   },
   {
+    Id: 12,
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",
@@ -186,6 +199,7 @@ export const datas: Data[] = [
     Email: "QevinC@example.com",
   },
   {
+    Id: 13,
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
@@ -193,6 +207,7 @@ export const datas: Data[] = [
     Email: "KevinC@example.com",
   },
   {
+    Id: 14,
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
@@ -200,6 +215,7 @@ export const datas: Data[] = [
     Email: "LevinC@example.com",
   },
   {
+    Id: 15,
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
@@ -207,6 +223,7 @@ export const datas: Data[] = [
     Email: "DevinC@example.com",
   },
   {
+    Id: 16,
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",

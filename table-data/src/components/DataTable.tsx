@@ -18,8 +18,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
+import { FormControl, InputLabel, MenuItem, Select, Button } from "@mui/material"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
@@ -102,16 +101,16 @@ export function DataTable<TData, TValue>({
             </div>
             <div className="flex items-center space-x-2">
                 <Button
-                    variant="outline"
-                    size="sm"
+                    variant="outlined"
+                    size="small"
                     onClick={() =>setPageIndex(pageIndex - 1)}
                     disabled={!table.getCanPreviousPage()}
                 >
                     <ChevronLeftIcon className="h-5 w-5" />
                 </Button>
                 <Button
-                    variant="outline"
-                    size="sm"
+                    variant="outlined"
+                    size="small"
                     onClick={() => setPageIndex(pageIndex + 1)}
                     disabled={!table.getCanNextPage()}
                 >
