@@ -40,17 +40,41 @@ export function DataTable<TData extends Data, TValue>({
     const [editedData, setEditedData] = React.useState(data)
     const [savedData, setSavedData] = React.useState(data)
     const [editedCells, setEditedCells] = React.useState<{ [key: string]: boolean }>({})
-    const [emailErrors, setEmailErrors] = React.useState<{ [key: string]: string }>({}) 
+    const [error, setError] = React.useState<{ [key: string]: string }>({}) 
 
-    const validateEmail = (email: string, rowId: string) => {
+    const validateEmail = (email: string, rowId: string): string => {
         const isValid = /^.+@.+\.(id|com)$/.test(email);
         const isUnique = !tableData.some((row, index) => index.toString() !== rowId && row.Email === email);
-        console.log(isValid, isUnique)
-        if (!isValid || !isUnique) {
-            return !isValid ? 'Invalid email format' : 'Email must be unique';
+        if (!isValid) {
+            return 'Invalid email format';
+        }
+        if (!isUnique) {
+            return 'Email must be unique';
         }
         return '';
     };
+    
+    const validatePhoneNumber = (phoneNumber: string): string => {
+        const isValid = /^\d+$/.test(phoneNumber);
+        if (!isValid) {
+            return 'This data must consist of only numbers';
+        }
+        return '';
+    };
+    
+    const validateCell = (value: string, cellId: keyof TData, rowId: string): string => {
+        if (value.trim() === '') {
+            return 'Data cannot be empty';
+        }
+        if (cellId === 'Email') {
+            return validateEmail(value, rowId);
+        }
+        if (cellId === 'Phone') {
+            return validatePhoneNumber(value);
+        }
+        return '';
+    };
+    
     const table = useReactTable({
         data: tableData,
         columns,
@@ -88,27 +112,26 @@ export function DataTable<TData extends Data, TValue>({
         });
         setEditedData(updatedData);
         setTableData(updatedData);
-
+    
         setEditedCells((prev) => ({
             ...prev,
             [`${rowId}-${String(cellId)}`]: true,
         }));
-
-        if (cellId === 'Email') {
-            const error = validateEmail(newValue, rowId);
-            setEmailErrors((prev) => ({
-                ...prev,
-                [`${rowId}-${String(cellId)}`]: error,
-            }));
-        }
+    
+        const error = validateCell(newValue, cellId, rowId);
+        setError((prev) => ({
+            ...prev,
+            [`${rowId}-${String(cellId)}`]: error,
+        }));
     };
 
     const handleSave = () => {
         setSavedData(editedData);
         handleBlur();
         setEditedCells({});
-        setEmailErrors({});
+        setError({});
     };
+
     const createEmptyRow = (): TData => {
         const emptyRow = {} as TData;
         Object.keys(emptyRow).forEach((key) => {
@@ -123,7 +146,7 @@ export function DataTable<TData extends Data, TValue>({
         setEditedData([newRow, ...editedData]);
     };
 
-    const hasErrors = Object.values(emailErrors).some(error => error !== '');
+    const hasErrors = Object.values(error).some(error => error !== '');
 
     return (
         <div>
@@ -172,7 +195,7 @@ export function DataTable<TData extends Data, TValue>({
                                                 height: '56px',
                                                 padding: 0,
                                                 backgroundColor: editedCells[`${row.id}-${cell.column.id}`]
-                                                    ? (emailErrors[`${row.id}-${cell.column.id}`] ? 'lightcoral' : 'lightgreen')
+                                                    ? (error[`${row.id}-${cell.column.id}`] ? 'lightcoral' : 'lightgreen')
                                                     : 'inherit'
                                             }}
                                         >
@@ -191,9 +214,9 @@ export function DataTable<TData extends Data, TValue>({
                                                             }}
                                                     />
                                                     </Box>
-                                                    {emailErrors[`${row.id}-${cell.column.id}`] && (
+                                                    {error[`${row.id}-${cell.column.id}`] && (
                                                     <Button variant="contained" sx={{ backgroundColor: '#d32f2f', color: '#fff', position: 'absolute'}}>
-                                                        {emailErrors[`${row.id}-${cell.column.id}`]}
+                                                        {error[`${row.id}-${cell.column.id}`]}
                                                     </Button>
                                                     )}
                                                 </>
