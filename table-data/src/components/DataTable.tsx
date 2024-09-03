@@ -185,6 +185,9 @@ export function DataTable<TData extends Data, TValue>({
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                     style={{ height: '56px', padding: 0 }}
+                                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'white'}
+                                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'white'
+                                }
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell
@@ -205,12 +208,16 @@ export function DataTable<TData extends Data, TValue>({
                                                     <TextField
                                                         value={cell.getValue() as string | number}
                                                         variant="filled"
-                                                        size="small"
+                                                        size="medium"
                                                         onChange={(e) => handleInputChange(e, row.id, cell.column.id as keyof TData)}
                                                         onBlur={handleBlur}
-                                                        sx={{ width: '300px', height: '56px', padding: 0 }}
+                                                        sx={{ width: '300px', height: '56px', padding: 0,
+                                                            '& .MuiFilledInput-root': {
+                                                                backgroundColor: 'white',
+                                                            } }}
                                                         InputProps={{
                                                                 disableUnderline: true,
+                                                                style: {fontSize: 14, backgroundColor: 'white', marginLeft: 16, marginBottom: 50}
                                                             }}
                                                     />
                                                     </Box>
