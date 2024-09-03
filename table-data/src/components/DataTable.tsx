@@ -25,6 +25,7 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
+   
 export function DataTable<TData, TValue>({
     columns,
     data,
@@ -53,17 +54,12 @@ export function DataTable<TData, TValue>({
     const handleCellClick = (rowId: any, cellId: any) => {
         setEditingCell({ rowId, cellId });
     };
-
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>, rowId: string, cellId: string) => {
-        handleInputChange(e, rowId, cellId);
-        setEditingCell({ rowId: null, cellId: null });
-    };
     
     const handleInputChange = (e: { target: { value: any } }, rowId: any, cellId: any) => {
         const newValue = e.target.value;
         
-        setTableData((data) =>
-            data.map((row, index) => {
+        setTableData((prevData) =>
+            prevData.map((row, index) => {
                 if (index === rowId) {
                     return {
                         ...row,
@@ -97,43 +93,37 @@ export function DataTable<TData, TValue>({
                 ))}
                 </TableHeader>
                 <TableBody>
-                    {table.getRowModel().rows?.length ? (
-                        table.getRowModel().rows.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                                style={{ height: '56px' , padding: 0}}
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                    <TableCell
-                                    key={cell.id}
-                                    onClick={() => handleCellClick(row.id, cell.id)}
-                                    style={{ height: '56px' , padding: 0 }}
+                        {table.getRowModel().rows?.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && "selected"}
                                 >
-                                    {editingCell.rowId === row.id && editingCell.cellId === cell.id ? (
-                                        <TextField
-                                            defaultValue={cell.getValue()}
-                                            variant="filled"
-                                            size="small"
-                                            onChange={(e) => handleInputChange(e, row.id, cell.id)}
-                                            onBlur={(e) => handleBlur(e, row.id, cell.id)}
-                                            style={{ height: '56px' , padding: 0}}
-                                        />
-                                    ) : (
-                                        flexRender(cell.column.columnDef.cell, cell.getContext())
-                                    )}
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell
+                                            key={cell.id}
+                                            onClick={() => handleCellClick(row.id, cell.id)}
+                                        >
+                                            {editingCell.rowId === row.id && editingCell.cellId === cell.id ? (
+                                                <TextField
+                                                    defaultValue={cell.getValue()}
+                                                    onChange={(e) => handleInputChange(e, row.id, cell.id)}
+                                                />
+                                            ) : (
+                                                flexRender(cell.column.columnDef.cell, cell.getContext())
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    No results.
                                 </TableCell>
-                                ))}
                             </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
+                        )}
+                    </TableBody>
             </Table>
             </div>
             <div className="flex items-center justify-between space-x-2 py-4">
