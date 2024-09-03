@@ -213,11 +213,15 @@ export function DataTable<TData extends Data, TValue>({
                                                         onBlur={handleBlur}
                                                         sx={{ width: '300px', height: '56px', padding: 0,
                                                             '& .MuiFilledInput-root': {
-                                                                backgroundColor: 'white',
+                                                                backgroundColor: editedCells[`${row.id}-${cell.column.id}`]
+                                                                ? (error[`${row.id}-${cell.column.id}`] ? 'lightcoral' : 'lightgreen')
+                                                                : 'white',
                                                             } }}
                                                         InputProps={{
                                                                 disableUnderline: true,
-                                                                style: {fontSize: 14, backgroundColor: 'white', marginLeft: 16, marginBottom: 50}
+                                                                style: {fontSize: 14, backgroundColor: editedCells[`${row.id}-${cell.column.id}`]
+                                                                ? (error[`${row.id}-${cell.column.id}`] ? 'lightcoral' : 'lightgreen')
+                                                                : 'white', marginLeft: 16, marginBottom: 50}
                                                             }}
                                                     />
                                                     </Box>
