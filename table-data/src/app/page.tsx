@@ -6,7 +6,7 @@ import React from "react";
 import { Button } from "@nextui-org/button";
 
 
-type Data = {
+export type Data = {
   Id: number
   FirstName : string
   LastName : string
@@ -31,6 +31,7 @@ export const columns: ColumnDef<Data>[] = [
     header: ({ column }) => {
       return (
         <Button
+          fullWidth
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -47,6 +48,7 @@ export const columns: ColumnDef<Data>[] = [
     header: ({ column }) => {
       return (
         <Button
+          fullWidth
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -63,6 +65,7 @@ export const columns: ColumnDef<Data>[] = [
     header: ({ column }) => {
       return (
         <Button
+          fullWidth
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
@@ -88,6 +91,7 @@ export const columns: ColumnDef<Data>[] = [
     header: ({ column }) => {
       return (
         <Button
+          fullWidth
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
