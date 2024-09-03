@@ -11,18 +11,20 @@ export type Data = {
   FirstName : string
   LastName : string
   Position : string
-  Phone : number
+  Phone : string
   Email : string
 }
 
-const formatPhoneNumber = (input: string | number): string => {
-  const numberStr = input.toString();
+const formatPhoneNumber = (input: string) => {
+  if (input === undefined || input === null || input.length === 0) {
+    return '';
+  }
+  
+    const part1 = input.slice(0, 3);
+    const part2 = input.slice(3, 6); 
+    const part3 = input.slice(6);
 
-  const part1 = numberStr.slice(0, 3);
-  const part2 = numberStr.slice(3, 6); 
-  const part3 = numberStr.slice(6);
-
-  return `(${part1}) ${part2}-${part3}`;
+    return `(${part1}) ${part2}-${part3}`;
 };
 
 export const columns: ColumnDef<Data>[] = [
@@ -111,7 +113,7 @@ export const datas: Data[] = [
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "KevinC@example.com",
   },
   {
@@ -119,7 +121,7 @@ export const datas: Data[] = [
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "LevinC@example.com",
   },
   {
@@ -127,7 +129,7 @@ export const datas: Data[] = [
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "DevinC@example.com",
   },
   {
@@ -135,7 +137,7 @@ export const datas: Data[] = [
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "QevinC@example.com",
   },
   {
@@ -143,7 +145,7 @@ export const datas: Data[] = [
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "KevinC@example.com",
   },
   {
@@ -151,7 +153,7 @@ export const datas: Data[] = [
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "LevinC@example.com",
   },
   {
@@ -159,7 +161,7 @@ export const datas: Data[] = [
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "DevinC@example.com",
   },
   {
@@ -167,7 +169,7 @@ export const datas: Data[] = [
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "QevinC@example.com",
   },
   {
@@ -175,7 +177,7 @@ export const datas: Data[] = [
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "KevinC@example.com",
   },
   {
@@ -183,7 +185,7 @@ export const datas: Data[] = [
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "LevinC@example.com",
   },
   {
@@ -191,7 +193,7 @@ export const datas: Data[] = [
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "DevinC@example.com",
   },
   {
@@ -199,7 +201,7 @@ export const datas: Data[] = [
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "QevinC@example.com",
   },
   {
@@ -207,7 +209,7 @@ export const datas: Data[] = [
     FirstName: "Kevin",
     LastName: "Carter",
     Position: "CEO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "KevinC@example.com",
   },
   {
@@ -215,7 +217,7 @@ export const datas: Data[] = [
     FirstName: "Levin",
     LastName: "Carter",
     Position: "CTO",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "LevinC@example.com",
   },
   {
@@ -223,7 +225,7 @@ export const datas: Data[] = [
     FirstName: "Devin",
     LastName: "Carter",
     Position: "Staff",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "DevinC@example.com",
   },
   {
@@ -231,7 +233,7 @@ export const datas: Data[] = [
     FirstName: "Qevin",
     LastName: "Carter",
     Position: "HR Lead",
-    Phone: 2135552378,
+    Phone: "2135552378",
     Email: "QevinC@example.com",
   },
 ]

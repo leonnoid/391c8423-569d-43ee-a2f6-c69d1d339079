@@ -19,7 +19,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { FormControl, InputLabel, MenuItem, Select, Button, TextField, IconButton, FormHelperText, styled, Alert, Box } from "@mui/material"
-import { ChevronLeftIcon, ChevronRightIcon, SaveIcon } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon, SaveIcon, PlusIcon } from "lucide-react"
 import { Data } from "@/app/page"
 
 
@@ -102,11 +102,25 @@ export function DataTable<TData extends Data, TValue>({
             }));
         }
     };
+
     const handleSave = () => {
         setSavedData(editedData);
         handleBlur();
         setEditedCells({});
         setEmailErrors({});
+    };
+    const createEmptyRow = (): TData => {
+        const emptyRow = {} as TData;
+        Object.keys(emptyRow).forEach((key) => {
+            emptyRow[key as keyof TData] = '' as any; 
+        });
+        return emptyRow;
+    };
+
+    const handleAddRow = () => {
+        const newRow = createEmptyRow();
+        setTableData([newRow, ...tableData]);
+        setEditedData([newRow, ...editedData]);
     };
 
     const hasErrors = Object.values(emailErrors).some(error => error !== '');
@@ -114,6 +128,9 @@ export function DataTable<TData extends Data, TValue>({
     return (
         <div>
             <div className="flex justify-end p-2">
+                <IconButton color="primary" onClick={handleAddRow}>
+                    <PlusIcon />
+                </IconButton>
                 <IconButton color="primary" onClick={handleSave} disabled={hasErrors}>
                     <SaveIcon />
                 </IconButton>
